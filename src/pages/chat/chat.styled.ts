@@ -67,10 +67,10 @@ export const FormButton = styled.button`
 	text-transform: uppercase;
 	font-weight: 700;
 	cursor: pointer;
-	transition 0.5s ease-in-out;
+	transition: 0.5s ease-in-out;
 
 	&:hover {
-		background-color: #4e0eff
+		background-color: #4e0eff;
 	}
 `;
 

@@ -1,3 +1,4 @@
+import 'react-toastify/dist/ReactToastify.css';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { Chat } from './pages/chat';
 import { Login } from './pages/login';
