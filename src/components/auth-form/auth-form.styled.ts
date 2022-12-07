@@ -1,18 +1,7 @@
 import styled from 'styled-components';
 import Logo from '../../assets/logo.svg';
 
-export const FormContainer = styled.div`
-	height: 100vh;
-	width: 100vw;
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	gap: 1rem;
-	align-items: center;
-	background-color: #131324;
-`;
-
-export const Form = styled.form`
+export const AuthFormWrapper = styled.form`
 	display: flex;
 	align-items: center;
 	flex-direction: column;
@@ -41,7 +30,7 @@ export const LogoText = styled.h1`
 	text-transform: uppercase;
 `;
 
-export const FormInput = styled.input`
+export const AuthFormInput = styled.input`
 	background-color: transparent;
 	padding: 1rem;
 	border: 0.1rem solid #4e0eff;
@@ -56,7 +45,7 @@ export const FormInput = styled.input`
 	}
 `;
 
-export const FormButton = styled.button`
+export const AuthFormButton = styled.button`
 	background-color: #997af0;
 	padding: 1rem 2rem;
 	width: 100%;
@@ -74,7 +63,7 @@ export const FormButton = styled.button`
 	}
 `;
 
-export const FormAdd = styled.span`
+export const AuthFormAdd = styled.span`
 	color: #fff;
 	text-transform: uppercase;
 

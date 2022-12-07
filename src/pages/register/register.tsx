@@ -1,18 +1,10 @@
-import { FormEvent, useRef } from 'react';
 import axios from 'axios';
-import { Link, useNavigate } from 'react-router-dom';
-import { ToastContainer, toast, ToastOptions } from 'react-toastify';
-import {
-	Form,
-	FormAdd,
-	FormButton,
-	FormContainer,
-	FormInput,
-	LogoImg,
-	LogoText,
-	LogoWrapper,
-} from '../chat/chat.styled';
+import { FormEvent, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { toast, ToastOptions } from 'react-toastify';
 import { registerRoute } from '../../utils/APIRoutes';
+import { AuthForm } from '../../components/auth-form';
+import { AuthFormInput } from '../../components/auth-form/auth-form.styled';
 
 export const Register = () => {
 	const navigate = useNavigate();
@@ -43,12 +35,12 @@ export const Register = () => {
 			return false;
 		}
 
-		if (username && username.length < 3) {
+		if (!username || username.length < 3) {
 			toast.error('Username must be greater than 3 characters', toastOptions);
 			return false;
 		}
 
-		if (password && password.length < 8) {
+		if (!password || password.length < 8) {
 			toast.error('Password must be greater than 8 characters', toastOptions);
 			return false;
 		}
@@ -85,44 +77,31 @@ export const Register = () => {
 	};
 
 	return (
-		<>
-			<FormContainer>
-				<Form onSubmit={handleSubmit}>
-					<LogoWrapper>
-						<LogoImg />
-						<LogoText>snappy</LogoText>
-					</LogoWrapper>
-					<FormInput
-						type='text'
-						placeholder='Username'
-						name='username'
-						ref={usernameRef}
-					/>
-					<FormInput
-						type='email'
-						placeholder='Email'
-						name='email'
-						ref={emailRef}
-					/>
-					<FormInput
-						type='password'
-						placeholder='Password'
-						name='password'
-						ref={passwordRef}
-					/>
-					<FormInput
-						type='password'
-						placeholder='Confirm Password'
-						name='confirmPassword'
-						ref={confirmPasswordRef}
-					/>
-					<FormButton type='submit'>Create User</FormButton>
-					<FormAdd>
-						already have an account? <Link to='/login'>Login</Link>
-					</FormAdd>
-				</Form>
-			</FormContainer>
-			<ToastContainer />
-		</>
+		<AuthForm type='register' handleSubmit={handleSubmit}>
+			<AuthFormInput
+				type='text'
+				placeholder='Username'
+				name='username'
+				ref={usernameRef}
+			/>
+			<AuthFormInput
+				type='email'
+				placeholder='Email'
+				name='email'
+				ref={emailRef}
+			/>
+			<AuthFormInput
+				type='password'
+				placeholder='Password'
+				name='password'
+				ref={passwordRef}
+			/>
+			<AuthFormInput
+				type='password'
+				placeholder='Confirm Password'
+				name='confirmPassword'
+				ref={confirmPasswordRef}
+			/>
+		</AuthForm>
 	);
 };
