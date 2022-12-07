@@ -1,5 +1,6 @@
-import { ChangeEvent, FormEvent, useRef } from 'react';
-import { Link } from 'react-router-dom';
+import { FormEvent, useRef } from 'react';
+import axios from 'axios';
+import { Link, useNavigate } from 'react-router-dom';
 import { ToastContainer, toast, ToastOptions } from 'react-toastify';
 import {
 	Form,
@@ -11,8 +12,11 @@ import {
 	LogoText,
 	LogoWrapper,
 } from '../chat/chat.styled';
+import { registerRoute } from '../../utils/APIRoutes';
 
 export const Register = () => {
+	const navigate = useNavigate();
+
 	const usernameRef = useRef<HTMLInputElement | null>(null);
 	const emailRef = useRef<HTMLInputElement | null>(null);
 	const passwordRef = useRef<HTMLInputElement | null>(null);
@@ -24,8 +28,6 @@ export const Register = () => {
 		pauseOnHover: true,
 		theme: 'dark',
 	};
-
-	const handleChange = (event: ChangeEvent) => {};
 
 	const handleValidation = () => {
 		const username = usernameRef.current?.value;
@@ -59,9 +61,27 @@ export const Register = () => {
 		return true;
 	};
 
-	const handleSubmit = (event: FormEvent) => {
+	const handleSubmit = async (event: FormEvent) => {
 		event.preventDefault();
-		handleValidation();
+
+		if (handleValidation()) {
+			const username = usernameRef.current?.value;
+			const email = emailRef.current?.value;
+			const password = passwordRef.current?.value;
+
+			const { data } = await axios.post(registerRoute, {
+				username,
+				email,
+				password,
+			});
+
+			if (data.status) {
+				localStorage.setItem('caht-app-user', JSON.stringify(data.user));
+				navigate('/');
+			} else {
+				toast.error(data.msg, toastOptions);
+			}
+		}
 	};
 
 	return (
@@ -76,28 +96,24 @@ export const Register = () => {
 						type='text'
 						placeholder='Username'
 						name='username'
-						onChange={handleChange}
 						ref={usernameRef}
 					/>
 					<FormInput
 						type='email'
 						placeholder='Email'
 						name='email'
-						onChange={handleChange}
 						ref={emailRef}
 					/>
 					<FormInput
 						type='password'
 						placeholder='Password'
 						name='password'
-						onChange={handleChange}
 						ref={passwordRef}
 					/>
 					<FormInput
 						type='password'
 						placeholder='Confirm Password'
 						name='confirmPassword'
-						onChange={handleChange}
 						ref={confirmPasswordRef}
 					/>
 					<FormButton type='submit'>Create User</FormButton>
