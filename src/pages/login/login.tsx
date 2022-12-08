@@ -1,11 +1,12 @@
 import axios from 'axios';
-import { FormEvent, useRef } from 'react';
+import { FormEvent, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { loginRoute } from '../../utils/APIRoutes';
 import { AuthForm } from '../../components/auth-form';
 import { AuthFormInput } from '../../components/auth-form/auth-form.styled';
 import { toastOptions } from '../../utils/toast-options';
+import { getUser } from '../../utils/local-storage';
 
 export const Login = () => {
 	const navigate = useNavigate();
@@ -17,8 +18,8 @@ export const Login = () => {
 		const username = usernameRef.current?.value;
 		const password = passwordRef.current?.value;
 
-		if (!username) {
-			toast.error('Username is required', toastOptions);
+		if (!username || username.length < 3) {
+			toast.error('Username must be greater than 3 characters', toastOptions);
 			return false;
 		}
 
@@ -50,6 +51,12 @@ export const Login = () => {
 			}
 		}
 	};
+
+	useEffect(() => {
+		if (getUser()) {
+			navigate('/');
+		}
+	}, [navigate]);
 
 	return (
 		<AuthForm type='login' handleSubmit={handleSubmit}>
