@@ -37,7 +37,7 @@ export const AuthForm = ({ type, children, handleSubmit }: Props) => {
 					</AuthFormAdd>
 				) : (
 					<AuthFormAdd>
-						not have an account? <Link to='/register'>Register</Link>
+						Don't have an account? <Link to='/register'>Register</Link>
 					</AuthFormAdd>
 				)}
 			</AuthFormWrapper>

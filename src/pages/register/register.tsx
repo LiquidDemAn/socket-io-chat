@@ -1,10 +1,11 @@
 import axios from 'axios';
 import { FormEvent, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { toast, ToastOptions } from 'react-toastify';
+import { toast } from 'react-toastify';
 import { registerRoute } from '../../utils/APIRoutes';
 import { AuthForm } from '../../components/auth-form';
 import { AuthFormInput } from '../../components/auth-form/auth-form.styled';
+import { toastOptions } from '../../utils/toast-options';
 
 export const Register = () => {
 	const navigate = useNavigate();
@@ -13,13 +14,6 @@ export const Register = () => {
 	const emailRef = useRef<HTMLInputElement | null>(null);
 	const passwordRef = useRef<HTMLInputElement | null>(null);
 	const confirmPasswordRef = useRef<HTMLInputElement | null>(null);
-
-	const toastOptions: ToastOptions = {
-		position: 'bottom-right',
-		autoClose: 8000,
-		pauseOnHover: true,
-		theme: 'dark',
-	};
 
 	const handleValidation = () => {
 		const username = usernameRef.current?.value;
