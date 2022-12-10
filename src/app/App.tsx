@@ -5,6 +5,7 @@ import { Login } from '../pages/login';
 import { Register } from '../pages/register';
 import { AppContainer } from './App.styled';
 import { SetAvatar } from '../pages/set-avatar';
+import { ToastContainer } from 'react-toastify';
 
 function App() {
 	return (
@@ -17,6 +18,7 @@ function App() {
 					<Route path='login' element={<Login />} />
 				</Routes>
 			</AppContainer>
+			<ToastContainer />
 		</BrowserRouter>
 	);
 }

@@ -41,7 +41,7 @@ export const AuthForm = ({ type, children, handleSubmit }: Props) => {
 					</AuthFormAdd>
 				)}
 			</AuthFormWrapper>
-			<ToastContainer />
+			{/* <ToastContainer /> */}
 		</>
 	);
 };
