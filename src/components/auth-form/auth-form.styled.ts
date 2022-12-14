@@ -45,24 +45,6 @@ export const AuthFormInput = styled.input`
 	}
 `;
 
-export const AuthFormButton = styled.button`
-	background-color: #997af0;
-	padding: 1rem 2rem;
-	width: 100%;
-	color: #fff;
-	border: none;
-	border-radius: 0.4rem;
-	font-size: 1rem;
-	text-transform: uppercase;
-	font-weight: 700;
-	cursor: pointer;
-	transition: 0.5s ease-in-out;
-
-	&:hover {
-		background-color: #4e0eff;
-	}
-`;
-
 export const AuthFormAdd = styled.span`
 	color: #fff;
 	text-transform: uppercase;

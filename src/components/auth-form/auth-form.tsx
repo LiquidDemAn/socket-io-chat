@@ -1,12 +1,11 @@
 import { FormEvent, ReactElement } from 'react';
 import { Link } from 'react-router-dom';
-import { ToastContainer } from 'react-toastify';
+import { SubmitBtn } from '../common';
 import {
 	AuthFormWrapper,
 	LogoWrapper,
 	LogoImg,
 	LogoText,
-	AuthFormButton,
 	AuthFormAdd,
 } from './auth-form.styled';
 
@@ -27,9 +26,9 @@ export const AuthForm = ({ type, children, handleSubmit }: Props) => {
 
 				{children}
 
-				<AuthFormButton type='submit'>
+				<SubmitBtn width='100%' type='submit'>
 					{type === 'register' ? 'Create User' : 'Login'}
-				</AuthFormButton>
+				</SubmitBtn>
 
 				{type === 'register' ? (
 					<AuthFormAdd>

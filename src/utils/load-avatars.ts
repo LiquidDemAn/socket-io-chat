@@ -10,16 +10,16 @@ type ImageType = {
 export const loadAvatars = async (count: number) => {
 	const data: string[] = [];
 	const api = 'https://api.multiavatar.com/456789';
-	const randomNumber = Math.round(Math.random() * 1000);
 
 	try {
 		for (let i = 0; i < count; i++) {
+			const randomNumber = Math.round(Math.random() * 1000);
 			const image: ImageType = await axios.get(`${api}/${randomNumber}`);
 			const buffer = new Buffer(image.data);
 			data.push(buffer.toString('base64'));
 		}
 
-		return data;
+		return data.map((item) => `data:image/svg+xml;base64,${item}`);
 	} catch (error) {
 		throw error;
 	}
