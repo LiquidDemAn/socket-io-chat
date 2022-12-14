@@ -19,7 +19,7 @@ export const loadAvatars = async (count: number) => {
 			data.push(buffer.toString('base64'));
 		}
 
-		return data.map((item) => `data:image/svg+xml;base64,${item}`);
+		return data;
 	} catch (error) {
 		throw error;
 	}

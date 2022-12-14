@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import loader from '../assets/loader.gif';
 
 type SubmitBtnProps = {
 	width?: string;
@@ -21,3 +22,8 @@ export const SubmitBtn = styled.button`
 		background-color: #4e0eff;
 	}
 `;
+
+export const Loader = styled.img.attrs({
+	src: loader,
+	alt: 'loader',
+})``;
