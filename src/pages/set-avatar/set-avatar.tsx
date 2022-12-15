@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { Loader, SubmitBtn } from '../../components/common';
+import { useAuth } from '../../hooks/use-auth';
 import { setAvatarRoute } from '../../utils/APIRoutes';
 import { loadAvatars } from '../../utils/load-avatars';
 import { getUser, setUser } from '../../utils/local-storage';
@@ -41,11 +42,7 @@ export const SetAvatar = () => {
 		}
 	};
 
-	useEffect(() => {
-		if (getUser()) {
-			navigate('/');
-		}
-	}, [navigate]);
+	useAuth();
 
 	useEffect(() => {
 		setIsLoading(true);

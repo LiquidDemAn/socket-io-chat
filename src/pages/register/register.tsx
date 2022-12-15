@@ -1,12 +1,12 @@
 import axios from 'axios';
-import { FormEvent, useRef, useEffect } from 'react';
+import { FormEvent, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { registerRoute } from '../../utils/APIRoutes';
 import { AuthForm } from '../../components/auth-form';
 import { AuthFormInput } from '../../components/auth-form/auth-form.styled';
 import { toastOptions } from '../../utils/toast-options';
-import { getUser } from '../../utils/local-storage';
+import { useAuth } from '../../hooks/use-auth';
 
 export const Register = () => {
 	const navigate = useNavigate();
@@ -71,11 +71,7 @@ export const Register = () => {
 		}
 	};
 
-	useEffect(() => {
-		if (getUser()) {
-			navigate('/');
-		}
-	}, [navigate]);
+	useAuth();
 
 	return (
 		<AuthForm type='register' handleSubmit={handleSubmit}>
