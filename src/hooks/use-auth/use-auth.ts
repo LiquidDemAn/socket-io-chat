@@ -1,13 +1,15 @@
+import { getIsAuth } from './../../redux/services/user/selectors';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getUser } from '../../utils/local-storage';
+import { useAppSelector } from '../../redux/store/hooks';
 
 export const useAuth = () => {
 	const navigate = useNavigate();
+	const isAuth = useAppSelector(getIsAuth);
 
 	useEffect(() => {
-		if (getUser()) {
+		if (isAuth) {
 			navigate('/');
 		}
-	}, [navigate]);
+	}, [navigate, isAuth]);
 };

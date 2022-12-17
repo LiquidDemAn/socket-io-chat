@@ -1,18 +1,23 @@
-import axios from 'axios';
 import { FormEvent, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { loginRoute } from '../../utils/APIRoutes';
 import { AuthForm } from '../../components/auth-form';
 import { AuthFormInput } from '../../components/auth-form/auth-form.styled';
 import { toastOptions } from '../../utils/toast-options';
 import { useAuth } from '../../hooks/use-auth';
+import { useAppDispatch, useAppSelector } from '../../redux/store/hooks';
+import { loginAction } from '../../redux/services/user/actions';
+import { getUserError } from '../../redux/services/user/selectors';
 
 export const Login = () => {
-	const navigate = useNavigate();
+	const dispatch = useAppDispatch();
+	const error = useAppSelector(getUserError);
 
 	const usernameRef = useRef<HTMLInputElement | null>(null);
 	const passwordRef = useRef<HTMLInputElement | null>(null);
+
+	if (error) {
+		toast.error(error.msg, toastOptions);
+	}
 
 	const handleValidation = () => {
 		const username = usernameRef.current?.value;
@@ -38,16 +43,8 @@ export const Login = () => {
 			const username = usernameRef.current?.value;
 			const password = passwordRef.current?.value;
 
-			const { data } = await axios.post(loginRoute, {
-				username,
-				password,
-			});
-
-			if (data.status) {
-				localStorage.setItem('caht-app-user', JSON.stringify(data.user));
-				navigate('/');
-			} else {
-				toast.error(data.msg, toastOptions);
+			if (username && password) {
+				dispatch(loginAction({ username, password }));
 			}
 		}
 	};

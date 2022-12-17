@@ -1,4 +1,4 @@
-import { UserType } from '../typedef';
+import { UserType } from '../redux/services/user/typedef';
 
 export const setUser = (user: UserType) => {
 	localStorage.setItem('caht-app-user', JSON.stringify(user));
