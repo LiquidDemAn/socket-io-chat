@@ -31,8 +31,6 @@ export const SetAvatar = () => {
 			avatar,
 		});
 
-		console.log(data);
-
 		if (data.avatar && user) {
 			user.avatar = data.avatar;
 			setUser(user);
