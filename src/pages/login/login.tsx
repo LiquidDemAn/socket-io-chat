@@ -44,7 +44,7 @@ export const Login = () => {
 			const password = passwordRef.current?.value;
 
 			if (username && password) {
-				dispatch(loginAction({ username, password }));
+				await dispatch(loginAction({ username, password }));
 			}
 		}
 	};

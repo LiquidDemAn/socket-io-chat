@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { ErrorType } from '../../../typedef';
-import { loginAction, registerAction } from './actions';
+import { loginAction, registerAction, setAvatarAction } from './actions';
 import { UserStateType } from './typedef';
 
 const initialState: UserStateType = {
@@ -30,6 +30,17 @@ export const userSlice = createSlice({
 				state.user = payload;
 			})
 			.addCase(registerAction.rejected, (state, { payload }) => {
+				state.error = payload as ErrorType;
+			})
+			.addCase(setAvatarAction.pending, (state) => {
+				state.error = null;
+			})
+			.addCase(setAvatarAction.fulfilled, (state, { payload }) => {
+				if (state.user) {
+					state.user.avatar = payload;
+				}
+			})
+			.addCase(setAvatarAction.rejected, (state, { payload }) => {
 				state.error = payload as ErrorType;
 			}),
 });

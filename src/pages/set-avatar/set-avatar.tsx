@@ -1,12 +1,10 @@
-import axios from 'axios';
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { Loader, SubmitBtn } from '../../components/common';
 import { useAuth } from '../../hooks/use-auth';
-import { setAvatarRoute } from '../../utils/APIRoutes';
+import { useAppDispatch, useAppSelector } from '../../redux/store/hooks';
 import { loadAvatars } from '../../utils/load-avatars';
-import { getUser, setUser } from '../../utils/local-storage';
+import { getUser, getUserError } from '../../redux/services/user/selectors';
 import { toastOptions } from '../../utils/toast-options';
 import {
 	Avatars,
@@ -15,28 +13,28 @@ import {
 	Avatar,
 	AvatarWrapper,
 } from './set-avatar.styled';
+import { setAvatarAction } from '../../redux/services/user/actions';
 
 export const SetAvatar = () => {
-	const navigate = useNavigate();
+	const dispatch = useAppDispatch();
+
+	const user = useAppSelector(getUser);
+	const error = useAppSelector(getUserError);
+
+	if (error) {
+		toast.error(error.msg, toastOptions);
+	}
 
 	const [avatars, setAvatars] = useState<string[]>([]);
 	const [isLoading, setIsLoading] = useState(false);
 	const [selectedAvatar, setSelectedAvatar] = useState(0);
 
 	const setProfilePicture = async () => {
-		const user = getUser();
 		const avatar = avatars[selectedAvatar];
+		const id = user?._id;
 
-		const { data } = await axios.post(`${setAvatarRoute}/${user?._id}`, {
-			avatar,
-		});
-
-		if (data.avatar && user) {
-			user.avatar = data.avatar;
-			setUser(user);
-			navigate('/');
-		} else {
-			toast.error('Error setting avatar. Please try again later', toastOptions);
+		if (id) {
+			dispatch(setAvatarAction({ avatar, id }));
 		}
 	};
 
