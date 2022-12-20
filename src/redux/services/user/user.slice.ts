@@ -1,6 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { ErrorType } from '../../../typedef';
-import { loginAction, registerAction, setAvatarAction } from './actions';
+import {
+	loadUserAction,
+	loginAction,
+	registerAction,
+	setAvatarAction,
+} from './actions';
 import { UserStateType } from './typedef';
 
 const initialState: UserStateType = {
@@ -14,6 +19,9 @@ export const userSlice = createSlice({
 	reducers: {},
 	extraReducers: (builder) =>
 		builder
+			.addCase(loadUserAction.fulfilled, (state, { payload }) => {
+				state.user = payload;
+			})
 			.addCase(loginAction.pending, (state) => {
 				state.error = null;
 			})

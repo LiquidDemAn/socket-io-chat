@@ -5,7 +5,22 @@ import {
 	loginRoute,
 	registerRoute,
 	setAvatarRoute,
+	loadUserRoute,
 } from '../../../utils/APIRoutes';
+import { getUserId, setUserId } from '../../../utils/local-storage';
+
+export const loadUserAction = createAsyncThunk<UserType>(
+	'user/load-user',
+	async () => {
+		const userId = getUserId();
+
+		console.log(userId);
+
+		const { data } = await axios.get(`${loadUserRoute}/${userId}`);
+
+		return data.user;
+	}
+);
 
 export const loginAction = createAsyncThunk<UserType, LoginType>(
 	'user/login',
@@ -13,7 +28,7 @@ export const loginAction = createAsyncThunk<UserType, LoginType>(
 		try {
 			const { data } = await axios.post(loginRoute, params);
 
-			localStorage.setItem('chat-app-user', JSON.stringify(data.user._id));
+			setUserId(data.user._id);
 			return data.user;
 		} catch (err) {
 			const error = err as AxiosError;
@@ -29,7 +44,7 @@ export const registerAction = createAsyncThunk<UserType, RegisterType>(
 		try {
 			const { data } = await axios.post(registerRoute, params);
 
-			localStorage.setItem('chat-app-user', JSON.stringify(data.user._id));
+			setUserId(data.user._id);
 
 			return data.user;
 		} catch (err) {

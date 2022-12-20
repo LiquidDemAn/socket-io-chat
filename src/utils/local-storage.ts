@@ -1,7 +1,7 @@
 import { UserType } from '../redux/services/user/typedef';
 
-export const setUser = (user: UserType) => {
-	localStorage.setItem('caht-app-user', JSON.stringify(user));
+export const setUserId = (id: string) => {
+	localStorage.setItem('chat-app-user', id);
 };
 
 export const getUser = () => {
@@ -11,4 +11,8 @@ export const getUser = () => {
 		return null;
 	}
 	return JSON.parse(user) as UserType;
+};
+
+export const getUserId = () => {
+	return localStorage.getItem('chat-app-user')?.toString();
 };
