@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { ErrorType } from '../../../typedef';
 import {
+	loadContactsAction,
 	loadUserAction,
 	loginAction,
 	registerAction,
@@ -8,10 +9,7 @@ import {
 } from './actions';
 import { UserStateType } from './typedef';
 
-const initialState: UserStateType = {
-	user: null,
-	error: null,
-};
+const initialState: UserStateType = {};
 
 export const userSlice = createSlice({
 	name: 'user',
@@ -49,6 +47,15 @@ export const userSlice = createSlice({
 				}
 			})
 			.addCase(setAvatarAction.rejected, (state, { payload }) => {
+				state.error = payload as ErrorType;
+			})
+			.addCase(loadContactsAction.pending, (state) => {
+				state.error = null;
+			})
+			.addCase(loadContactsAction.fulfilled, (state, { payload }) => {
+				state.contacts = payload;
+			})
+			.addCase(loadContactsAction.rejected, (state, { payload }) => {
 				state.error = payload as ErrorType;
 			}),
 });

@@ -6,6 +6,7 @@ import {
 	registerRoute,
 	setAvatarRoute,
 	loadUserRoute,
+	contactsRoute,
 } from '../../../utils/APIRoutes';
 import { getUserId, setUserId } from '../../../utils/local-storage';
 
@@ -13,11 +14,7 @@ export const loadUserAction = createAsyncThunk<UserType>(
 	'user/load-user',
 	async () => {
 		const userId = getUserId();
-
-		console.log(userId);
-
 		const { data } = await axios.get(`${loadUserRoute}/${userId}`);
-
 		return data.user;
 	}
 );
@@ -60,8 +57,7 @@ export const setAvatarAction = createAsyncThunk<
 	{ avatar: string; id: string }
 >('user/set-avatar', async ({ avatar, id }, { rejectWithValue }) => {
 	try {
-		await axios.post(`${setAvatarRoute}/${id}`, avatar);
-
+		await axios.post(`${setAvatarRoute}/${id}`, { avatar });
 		return avatar;
 	} catch (err) {
 		const error = err as AxiosError;
@@ -69,3 +65,17 @@ export const setAvatarAction = createAsyncThunk<
 		return rejectWithValue(error.response?.data);
 	}
 });
+
+export const loadContactsAction = createAsyncThunk<UserType[], string>(
+	'user/load-contacts',
+	async (id, { rejectWithValue }) => {
+		try {
+			const { data } = await axios.get(`${contactsRoute}/${id}`);
+			return data;
+		} catch (err) {
+			const error = err as AxiosError;
+			console.error(error);
+			return rejectWithValue(error.response?.data);
+		}
+	}
+);

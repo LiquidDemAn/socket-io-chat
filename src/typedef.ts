@@ -1,4 +1,4 @@
 export type ErrorType = {
-	msg: string;
-	status: boolean;
+	message: string;
+	status?: boolean;
 };

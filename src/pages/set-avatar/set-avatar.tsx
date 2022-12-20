@@ -14,15 +14,17 @@ import {
 	AvatarWrapper,
 } from './set-avatar.styled';
 import { setAvatarAction } from '../../redux/services/user/actions';
+import { useNavigate } from 'react-router-dom';
 
 export const SetAvatar = () => {
 	const dispatch = useAppDispatch();
+	const navigate = useNavigate();
 
 	const user = useAppSelector(getUser);
 	const error = useAppSelector(getUserError);
 
 	if (error) {
-		toast.error(error.msg, toastOptions);
+		toast.error(error.message, toastOptions);
 	}
 
 	const [avatars, setAvatars] = useState<string[]>([]);
@@ -53,6 +55,12 @@ export const SetAvatar = () => {
 				setIsLoading(false);
 			});
 	}, []);
+
+	useEffect(() => {
+		if (user?.avatar) {
+			navigate('/');
+		}
+	}, [user?.avatar, navigate]);
 
 	return (
 		<>

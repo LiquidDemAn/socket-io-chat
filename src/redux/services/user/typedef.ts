@@ -1,8 +1,9 @@
 import { ErrorType } from '../../../typedef';
 
 export type UserStateType = {
-	user: UserType | null;
-	error: ErrorType | null;
+	user?: UserType | null;
+	error?: ErrorType | null;
+	contacts?: UserType[] | null;
 };
 
 export type UserType = {

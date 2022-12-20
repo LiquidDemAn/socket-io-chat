@@ -16,7 +16,7 @@ export const Login = () => {
 	const passwordRef = useRef<HTMLInputElement | null>(null);
 
 	if (error) {
-		toast.error(error.msg, toastOptions);
+		toast.error(error.message, toastOptions);
 	}
 
 	const handleValidation = () => {
