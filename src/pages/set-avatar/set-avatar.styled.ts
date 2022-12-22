@@ -33,6 +33,6 @@ export const AvatarWrapper = styled.div`
 	cursor: pointer;
 `;
 
-export const Avatar = styled.img`
-	height: 5rem;
-`;
+// export const Avatar = styled.img`
+// 	height: 5rem;
+// `;

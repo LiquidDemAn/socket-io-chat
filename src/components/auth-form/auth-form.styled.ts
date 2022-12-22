@@ -11,24 +11,24 @@ export const AuthFormWrapper = styled.form`
 	padding: 3rem 5rem;
 `;
 
-export const LogoWrapper = styled.div`
-	display: flex;
-	align-items: center;
-	gap: 1rem;
-	justify-content: center;
-`;
+// export const LogoWrapper = styled.div`
+// 	display: flex;
+// 	align-items: center;
+// 	gap: 1rem;
+// 	justify-content: center;
+// `;
 
-export const LogoImg = styled.img.attrs({
-	src: Logo,
-	alt: 'logo',
-})`
-	height: 5rem;
-`;
+// export const LogoImg = styled.img.attrs({
+// 	src: Logo,
+// 	alt: 'logo',
+// })`
+// 	height: 5rem;
+// `;
 
-export const LogoText = styled.h1`
-	color: #fff;
-	text-transform: uppercase;
-`;
+// export const LogoText = styled.h1`
+// 	color: #fff;
+// 	text-transform: uppercase;
+// `;
 
 export const AuthFormInput = styled.input`
 	background-color: transparent;

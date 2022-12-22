@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
-import { Loader, SubmitBtn } from '../../components/common';
+import { Avatar, Loader, SubmitBtn } from '../../components/common';
 import { useAuth } from '../../hooks/use-auth';
 import { useAppDispatch, useAppSelector } from '../../redux/store/hooks';
 import { loadAvatars } from '../../utils/load-avatars';
@@ -10,7 +10,7 @@ import {
 	Avatars,
 	Container,
 	Title,
-	Avatar,
+	// Avatar,
 	AvatarWrapper,
 } from './set-avatar.styled';
 import { setAvatarAction } from '../../redux/services/user/actions';
@@ -78,8 +78,9 @@ export const SetAvatar = () => {
 							>
 								<Avatar
 									key={avatar}
-									src={`data:image/svg+xml;base64,${avatar}`}
-									alt=''
+									url={avatar}
+									// src={`data:image/svg+xml;base64,${avatar}`}
+									// alt=''
 								/>
 							</AvatarWrapper>
 						))}

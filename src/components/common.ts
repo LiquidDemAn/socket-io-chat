@@ -5,6 +5,10 @@ type SubmitBtnProps = {
 	width?: string;
 };
 
+type AvatarProps = {
+	url?: string;
+};
+
 export const SubmitBtn = styled.button`
 	background-color: #997af0;
 	padding: 1rem 2rem;
@@ -27,3 +31,14 @@ export const Loader = styled.img.attrs({
 	src: loader,
 	alt: 'loader',
 })``;
+
+export const Avatar = styled.img.attrs<AvatarProps>((props) => ({
+	src: `data:image/svg+xml;base64,${props.url}`,
+	alt: 'avatar',
+}))<AvatarProps>`
+	height: 5rem;
+`;
+
+// {
+
+// }
