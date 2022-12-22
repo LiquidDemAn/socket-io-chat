@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
-import { Avatar } from '../../components/common';
+import { ChatContainer } from '../../components/chat-container';
 import { Contacts } from '../../components/contacts';
 import { Logo } from '../../components/logo';
+import { Welcome } from '../../components/welcome';
 import { useAuth } from '../../hooks/use-auth';
 import { loadContactsAction } from '../../redux/services/user/actions';
 import {
@@ -11,7 +12,7 @@ import {
 } from '../../redux/services/user/selectors';
 import { UserType } from '../../redux/services/user/typedef';
 import { useAppDispatch, useAppSelector } from '../../redux/store/hooks';
-import { Container, LeftSide, User, UserName } from './chat.styled';
+import { Container, LeftSide } from './chat.styled';
 
 export const Chat = () => {
 	const dispatch = useAppDispatch();
@@ -19,12 +20,10 @@ export const Chat = () => {
 	const user = useAppSelector(getUser);
 	const contacts = useAppSelector(getContacts);
 
-	const [currentChat, setCurrentChat] = useState<UserType | null>(null);
-	const [selectedContact, setSelectedContact] = useState<string | null>(null);
+	const [selectedContact, setSelectedContact] = useState<UserType | null>(null);
 
-	const changeCurrentChat = (id: string, contact: UserType) => {
-		setSelectedContact(id);
-		setCurrentChat(contact);
+	const changeContact = (contact: UserType) => {
+		setSelectedContact(contact);
 	};
 
 	useAuth();
@@ -40,16 +39,18 @@ export const Chat = () => {
 			<LeftSide>
 				<Logo />
 				<Contacts
-					user={user}
 					contacts={contacts}
-					changeChat={changeCurrentChat}
-					selectedContact={selectedContact}
+					changeContact={changeContact}
+					selectedContactId={selectedContact?._id}
 				/>
-				{/* <User>
-					<Avatar url={user?.avatar} />
-					<UserName>{user?.username}</UserName>
-				</User> */}
 			</LeftSide>
+			<>
+				{selectedContact ? (
+					<ChatContainer contact={selectedContact} />
+				) : (
+					<Welcome name={user?.username} />
+				)}
+			</>
 		</Container>
 	);
 };

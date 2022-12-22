@@ -14,7 +14,14 @@ const initialState: UserStateType = {};
 export const userSlice = createSlice({
 	name: 'user',
 	initialState,
-	reducers: {},
+	reducers: {
+		logOutAction(state) {
+			state.user = null;
+			state.contacts = null;
+			state.error = null;
+			localStorage.clear();
+		},
+	},
 	extraReducers: (builder) =>
 		builder
 			.addCase(loadUserAction.fulfilled, (state, { payload }) => {
@@ -59,3 +66,5 @@ export const userSlice = createSlice({
 				state.error = payload as ErrorType;
 			}),
 });
+
+export const { logOutAction } = userSlice.actions;

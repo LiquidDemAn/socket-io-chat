@@ -18,13 +18,3 @@ export const LeftSide = styled.div`
 	padding: 1rem 0;
 	background-color: #080420;
 `;
-
-export const User = styled.div`
-	width: 100%;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	gap: 2rem;
-	background-color: #0d0d30;
-`;
-export const UserName = styled.h2``;

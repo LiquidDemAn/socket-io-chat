@@ -1,4 +1,4 @@
-import { getIsAuth, getUser } from './../../redux/services/user/selectors';
+import { getUser } from './../../redux/services/user/selectors';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAppSelector } from '../../redux/store/hooks';
@@ -12,14 +12,20 @@ export const useAuth = () => {
 		if (user && !user.avatar) {
 			navigate('/set-avatar');
 		}
-	}, [navigate, user]);
 
-	useEffect(() => {
 		if (
 			(user && user.avatar && pathname === '/login') ||
 			pathname === '/register'
 		) {
 			navigate('/');
 		}
-	}, [navigate, pathname, user]);
+
+		if (!user && pathname === '/register') {
+			navigate('/register');
+		}
+
+		if (!user && pathname !== '/register') {
+			navigate('/login');
+		}
+	}, [navigate, user, pathname]);
 };

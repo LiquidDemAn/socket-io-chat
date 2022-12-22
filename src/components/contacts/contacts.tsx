@@ -3,24 +3,22 @@ import { Avatar } from '../common';
 import { Contact, ContactName, ContactsContainer } from './contacts.styled';
 
 type Props = {
-	user?: UserType | null;
 	contacts?: UserType[] | null;
-	changeChat: (id: string, contact: UserType) => void;
-	selectedContact: string | null;
+	changeContact: (contact: UserType) => void;
+	selectedContactId?: string;
 };
 
 export const Contacts = ({
-	user,
 	contacts,
-	changeChat,
-	selectedContact,
+	changeContact,
+	selectedContactId,
 }: Props) => {
 	return (
 		<ContactsContainer>
 			{contacts?.map((contact) => (
 				<Contact
-					selected={selectedContact === contact._id}
-					onClick={() => changeChat(contact._id, contact)}
+					selected={selectedContactId === contact._id}
+					onClick={() => changeContact(contact)}
 				>
 					<Avatar url={contact.avatar} />
 					<ContactName>{contact.username}</ContactName>
