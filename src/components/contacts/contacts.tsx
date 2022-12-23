@@ -1,5 +1,5 @@
 import { UserType } from '../../redux/services/user/typedef';
-import { Avatar } from '../common';
+import { Avatar } from '../common.styled';
 import { Contact, ContactName, ContactsContainer } from './contacts.styled';
 
 type Props = {

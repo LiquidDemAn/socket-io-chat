@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
-import { Avatar, Loader, SubmitBtn } from '../../components/common';
+import { Avatar, Loader, SubmitBtn } from '../../components/common.styled';
 import { useAuth } from '../../hooks/use-auth';
 import { useAppDispatch, useAppSelector } from '../../redux/store/hooks';
 import { loadAvatars } from '../../utils/load-avatars';

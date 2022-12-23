@@ -1,6 +1,6 @@
 import { FormEvent, ReactElement } from 'react';
 import { Link } from 'react-router-dom';
-import { SubmitBtn } from '../common';
+import { SubmitBtn } from '../common.styled';
 import { Logo } from '../logo';
 import { AuthFormWrapper, AuthFormAdd } from './auth-form.styled';
 

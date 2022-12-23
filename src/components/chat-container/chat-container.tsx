@@ -1,6 +1,7 @@
 import React from 'react';
 import { UserType } from '../../redux/services/user/typedef';
-import { Avatar } from '../common';
+import { ChatInput } from '../chat-input';
+import { Avatar } from '../common.styled';
 import { Logout } from '../logout';
 import {
 	Container,
@@ -24,7 +25,10 @@ export const ChatContainer = ({ contact }: Props) => {
 				</UserDetails>
 				<Logout />
 			</Header>
-			<Messages></Messages>
+			<Messages>
+				
+			</Messages>
+			<ChatInput />
 		</Container>
 	);
 };
