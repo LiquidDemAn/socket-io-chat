@@ -1,4 +1,3 @@
-import React from 'react';
 import { UserType } from '../../redux/services/user/typedef';
 import { ChatInput } from '../chat-input';
 import { Avatar } from '../common.styled';
@@ -16,6 +15,10 @@ type Props = {
 };
 
 export const ChatContainer = ({ contact }: Props) => {
+	const handleSendMessage = (message: string) => {
+		alert(message);
+	};
+
 	return (
 		<Container>
 			<Header>
@@ -25,10 +28,8 @@ export const ChatContainer = ({ contact }: Props) => {
 				</UserDetails>
 				<Logout />
 			</Header>
-			<Messages>
-				
-			</Messages>
-			<ChatInput />
+			<Messages></Messages>
+			<ChatInput handleSend={handleSendMessage} />
 		</Container>
 	);
 };

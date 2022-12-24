@@ -3,7 +3,6 @@ import styled from 'styled-components';
 export const Container = styled.div`
 	display: flex;
 	align-items: center;
-	background-color: #080420;
 	gap: 2rem;
 	padding: 0 2rem;
 `;
@@ -24,9 +23,9 @@ export const Emoji = styled.div`
 		color: #ffff00c8;
 	}
 
-	.emoji-picker-react {
-		position: absolute;
-		top: -350px;
+	aside {
+		position: absolute !important;
+		top: -470px;
 	}
 `;
 
@@ -47,7 +46,7 @@ export const InputText = styled.input.attrs({
 	background-color: transparent;
 	color: #fff;
 	border: none;
-	padding-left: 1rem;
+	padding: 0.5rem 0 0.5rem 1rem;
 	font-size: 1.2rem;
 
 	&::selection {

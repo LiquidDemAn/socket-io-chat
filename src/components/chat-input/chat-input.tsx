@@ -9,10 +9,13 @@ import {
 import Picker, { EmojiClickData } from 'emoji-picker-react';
 import { IoMdSend } from 'react-icons/io';
 import { BsEmojiSmileFill } from 'react-icons/bs';
-import { ChangeEvent, useState } from 'react';
-import { DataEmoji } from 'emoji-picker-react/dist/dataUtils/DataTypes';
+import { ChangeEvent, FormEvent, useState } from 'react';
 
-export const ChatInput = () => {
+type Props = {
+	handleSend: (message: string) => void;
+};
+
+export const ChatInput = ({ handleSend }: Props) => {
 	const [showEmoji, setShowEmoji] = useState(false);
 	const [message, setMessage] = useState('');
 
@@ -31,7 +34,14 @@ export const ChatInput = () => {
 		setMessage(event.target.value);
 	};
 
-	console.log(message);
+	const sendMessage = (event: FormEvent) => {
+		event.preventDefault();
+
+		if (message.length > 0) {
+			setMessage('');
+			handleSend(message);
+		}
+	};
 
 	return (
 		<Container>
@@ -41,7 +51,7 @@ export const ChatInput = () => {
 					{showEmoji && <Picker onEmojiClick={handleEmojiSelect} />}
 				</Emoji>
 			</EmojiButtonContainer>
-			<InputContainer>
+			<InputContainer onSubmit={sendMessage}>
 				<InputText onChange={handleChangeInput} value={message} />
 				<ButtonSubmit>
 					<IoMdSend />
