@@ -3,8 +3,8 @@ import styled from 'styled-components';
 export const Container = styled.div`
 	display: flex;
 	flex-direction: column;
-	justify-content: space-between;
 	padding: 1rem 0;
+	overflow: hidden;
 `;
 export const Header = styled.header`
 	display: flex;
@@ -19,6 +19,7 @@ export const UserDetails = styled.div`
 	color: #fff;
 `;
 export const Name = styled.h3``;
+
 export const Messages = styled.div`
 	height: 100%;
 	padding: 1rem 2rem;
@@ -26,7 +27,16 @@ export const Messages = styled.div`
 	flex-direction: column;
 	gap: 1rem;
 	overflow: auto;
+	&::-webkit-scrollbar {
+		width: 0.2rem;
+		&-thumb {
+			background-color: #ffffff39;
+			width: 0.1rem;
+			border-radius: 1rem;
+		}
+	}
 `;
+
 export const Message = styled.div<{ sended: boolean }>`
 	display: flex;
 	align-items: center;

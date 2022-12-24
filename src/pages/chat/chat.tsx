@@ -1,4 +1,5 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { io, Socket } from 'socket.io-client';
 import { ChatContainer } from '../../components/chat-container';
 import { Contacts } from '../../components/contacts';
 import { Logo } from '../../components/logo';
@@ -15,6 +16,7 @@ import {
 } from '../../redux/services/user/selectors';
 import { MessageType, UserType } from '../../redux/services/user/typedef';
 import { useAppDispatch, useAppSelector } from '../../redux/store/hooks';
+import { host } from '../../utils/APIRoutes';
 import { Container, LeftSide } from './chat.styled';
 
 export const Chat = () => {
@@ -22,6 +24,8 @@ export const Chat = () => {
 	const id = useAppSelector(getUserId);
 	const user = useAppSelector(getUser);
 	const contacts = useAppSelector(getContacts);
+
+	const socketRef = useRef<Socket | null>(null);
 
 	const [selectedContact, setSelectedContact] = useState<UserType | null>(null);
 	const [messages, setMessages] = useState<MessageType[]>([]);
@@ -48,6 +52,13 @@ export const Chat = () => {
 		}
 	}, [id, dispatch]);
 
+	useEffect(() => {
+		if (user) {
+			socketRef.current = io(host);
+			socketRef.current.emit('add-user', user._id);
+		}
+	}, [user]);
+
 	return user ? (
 		<Container>
 			<LeftSide>
@@ -65,6 +76,7 @@ export const Chat = () => {
 						messages={messages}
 						contact={selectedContact}
 						userId={user._id}
+						socketRef={socketRef}
 					/>
 				) : (
 					<Welcome name={user.username} />

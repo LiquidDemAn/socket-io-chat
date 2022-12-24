@@ -1,4 +1,11 @@
-import { Dispatch, SetStateAction } from 'react';
+import {
+	Dispatch,
+	MutableRefObject,
+	SetStateAction,
+	useEffect,
+	useRef,
+	useState,
+} from 'react';
 import { createMessageAction } from '../../redux/services/user/actions';
 import { MessageType, UserType } from '../../redux/services/user/typedef';
 import { useAppDispatch } from '../../redux/store/hooks';
@@ -14,12 +21,14 @@ import {
 	Message,
 	MessageText,
 } from './chat-container.styled';
+import { Socket } from 'socket.io-client';
 
 type Props = {
 	userId: string;
 	contact: UserType;
 	messages: MessageType[];
 	setMessages: Dispatch<SetStateAction<MessageType[]>>;
+	socketRef: MutableRefObject<Socket | null>;
 };
 
 export const ChatContainer = ({
@@ -27,8 +36,15 @@ export const ChatContainer = ({
 	userId,
 	setMessages,
 	messages,
+	socketRef,
 }: Props) => {
 	const dispatch = useAppDispatch();
+
+	const scrollRef = useRef<HTMLDivElement | null>(null);
+
+	const [arrivalMessage, setArrivalMessage] = useState<MessageType | null>(
+		null
+	);
 
 	const handleSendMessage = (text: string) => {
 		const message = {
@@ -38,9 +54,39 @@ export const ChatContainer = ({
 		};
 
 		if (userId) {
-			dispatch(createMessageAction({ message, setMessages }));
+			dispatch(createMessageAction({ message, setMessages, socketRef }));
 		}
 	};
+
+	useEffect(() => {
+		if (socketRef.current) {
+			socketRef.current.on('message-receive', ({ message, _id, from }) => {
+				setArrivalMessage({
+					_id,
+					fromSelf: false,
+					message,
+					from,
+				});
+			});
+		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, []);
+
+	useEffect(() => {
+		if (arrivalMessage && arrivalMessage.from === contact._id) {
+			setMessages((prev) => [...prev, arrivalMessage]);
+			setArrivalMessage(null);
+			console.log(arrivalMessage);
+		}
+	}, [arrivalMessage, setMessages, contact._id]);
+
+	useEffect(() => {
+		if (scrollRef.current) {
+			scrollRef.current.scrollIntoView({ behavior: 'smooth' });
+		}
+	}, [messages]);
+
+	console.log(messages);
 
 	return (
 		<Container>
@@ -52,8 +98,8 @@ export const ChatContainer = ({
 				<Logout />
 			</Header>
 			<Messages>
-				{messages.map(({ fromSelf, message }) => (
-					<Message sended={fromSelf}>
+				{messages.map(({ fromSelf, message, _id }) => (
+					<Message key={_id} ref={scrollRef} sended={fromSelf}>
 						<MessageText sended={fromSelf}>{message}</MessageText>
 					</Message>
 				))}

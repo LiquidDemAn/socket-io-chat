@@ -31,6 +31,8 @@ export type CreatMessageType = {
 };
 
 export type MessageType = {
+	_id: string;
+	from: string;
 	fromSelf: boolean;
 	message: string;
 };

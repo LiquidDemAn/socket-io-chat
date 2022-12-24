@@ -19,7 +19,8 @@ import {
 	contactsRoute,
 } from '../../../utils/APIRoutes';
 import { getUserId, setUserId } from '../../../utils/local-storage';
-import { Dispatch, SetStateAction } from 'react';
+import { Dispatch, MutableRefObject, SetStateAction } from 'react';
+import { Socket } from 'socket.io-client';
 
 export const loadUserAction = createAsyncThunk<UserType>(
 	'user/load-user',
@@ -92,14 +93,19 @@ export const loadContactsAction = createAsyncThunk<UserType[], string>(
 );
 
 export const createMessageAction = createAsyncThunk<
-	void,
+	MessageType,
 	{
 		message: CreatMessageType;
 		setMessages: Dispatch<SetStateAction<MessageType[]>>;
+		socketRef: MutableRefObject<Socket | null>;
 	}
->('user/create-message', async ({ message, setMessages }) => {
+>('user/create-message', async ({ message, setMessages, socketRef }) => {
 	const { data } = await axios.post(createMessageRoute, message);
 	setMessages((prev) => [...prev, data]);
+
+	socketRef.current?.emit('send-message', { ...message, _id: data._id, sender: data.sender });
+
+	return data as MessageType;
 });
 
 export const getMessagesAction = createAsyncThunk<
