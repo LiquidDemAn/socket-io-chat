@@ -1,6 +1,15 @@
-import { createMessageRoute } from './../../../utils/APIRoutes';
+import {
+	createMessageRoute,
+	getMessagesRoute,
+} from './../../../utils/APIRoutes';
 import axios, { AxiosError } from 'axios';
-import { LoginType, MessageType, RegisterType, UserType } from './typedef';
+import {
+	LoginType,
+	CreatMessageType,
+	RegisterType,
+	UserType,
+	MessageType,
+} from './typedef';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import {
 	loginRoute,
@@ -10,6 +19,7 @@ import {
 	contactsRoute,
 } from '../../../utils/APIRoutes';
 import { getUserId, setUserId } from '../../../utils/local-storage';
+import { Dispatch, SetStateAction } from 'react';
 
 export const loadUserAction = createAsyncThunk<UserType>(
 	'user/load-user',
@@ -81,11 +91,25 @@ export const loadContactsAction = createAsyncThunk<UserType[], string>(
 	}
 );
 
-export const createMessageAction = createAsyncThunk<void, MessageType>(
-	'user/create-message',
-	async (message) => {
-		const { data } = await axios.post(createMessageRoute, message);
-
-		console.log(data)
+export const createMessageAction = createAsyncThunk<
+	void,
+	{
+		message: CreatMessageType;
+		setMessages: Dispatch<SetStateAction<MessageType[]>>;
 	}
-);
+>('user/create-message', async ({ message, setMessages }) => {
+	const { data } = await axios.post(createMessageRoute, message);
+	setMessages((prev) => [...prev, data]);
+});
+
+export const getMessagesAction = createAsyncThunk<
+	void,
+	{
+		from: string;
+		to: string;
+		setMessages: Dispatch<SetStateAction<MessageType[]>>;
+	}
+>('user/get-messages', async ({ from, to, setMessages }) => {
+	const { data } = await axios.get(`${getMessagesRoute}/${from}/${to}`);
+	setMessages(data);
+});

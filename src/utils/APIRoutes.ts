@@ -9,3 +9,4 @@ export const loadUserRoute = `${host}/api/auth/load-user`;
 
 // Messages
 export const createMessageRoute = `${host}/api/messages/create-message`;
+export const getMessagesRoute = `${host}/api/messages/get-messages`;

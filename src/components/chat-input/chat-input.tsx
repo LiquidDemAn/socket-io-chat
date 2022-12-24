@@ -19,8 +19,12 @@ export const ChatInput = ({ handleSend }: Props) => {
 	const [showEmoji, setShowEmoji] = useState(false);
 	const [message, setMessage] = useState('');
 
-	const showEmojiToggle = () => {
-		setShowEmoji(!showEmoji);
+	const onShowEmoji = () => {
+		setShowEmoji(true);
+	};
+
+	const onHideEmoji = () => {
+		setShowEmoji(false);
 	};
 
 	const handleEmojiSelect = (
@@ -46,8 +50,8 @@ export const ChatInput = ({ handleSend }: Props) => {
 	return (
 		<Container>
 			<EmojiButtonContainer>
-				<Emoji>
-					<BsEmojiSmileFill onClick={showEmojiToggle} />
+				<Emoji onMouseEnter={onShowEmoji} onMouseLeave={onHideEmoji}>
+					<BsEmojiSmileFill />
 					{showEmoji && <Picker onEmojiClick={handleEmojiSelect} />}
 				</Emoji>
 			</EmojiButtonContainer>

@@ -4,13 +4,16 @@ import { Contacts } from '../../components/contacts';
 import { Logo } from '../../components/logo';
 import { Welcome } from '../../components/welcome';
 import { useAuth } from '../../hooks/use-auth';
-import { loadContactsAction } from '../../redux/services/user/actions';
+import {
+	getMessagesAction,
+	loadContactsAction,
+} from '../../redux/services/user/actions';
 import {
 	getContacts,
 	getUser,
 	getUserId,
 } from '../../redux/services/user/selectors';
-import { UserType } from '../../redux/services/user/typedef';
+import { MessageType, UserType } from '../../redux/services/user/typedef';
 import { useAppDispatch, useAppSelector } from '../../redux/store/hooks';
 import { Container, LeftSide } from './chat.styled';
 
@@ -21,9 +24,20 @@ export const Chat = () => {
 	const contacts = useAppSelector(getContacts);
 
 	const [selectedContact, setSelectedContact] = useState<UserType | null>(null);
+	const [messages, setMessages] = useState<MessageType[]>([]);
 
 	const changeContact = (contact: UserType) => {
 		setSelectedContact(contact);
+
+		if (user?._id) {
+			dispatch(
+				getMessagesAction({
+					from: user._id,
+					to: contact._id,
+					setMessages,
+				})
+			);
+		}
 	};
 
 	useAuth();
@@ -46,7 +60,12 @@ export const Chat = () => {
 			</LeftSide>
 			<>
 				{selectedContact ? (
-					<ChatContainer contact={selectedContact} userId={user._id} />
+					<ChatContainer
+						setMessages={setMessages}
+						messages={messages}
+						contact={selectedContact}
+						userId={user._id}
+					/>
 				) : (
 					<Welcome name={user.username} />
 				)}

@@ -24,8 +24,13 @@ export type RegisterType = {
 	password: string;
 };
 
-export type MessageType = {
+export type CreatMessageType = {
 	text: string;
 	from: string;
 	to: string;
+};
+
+export type MessageType = {
+	fromSelf: boolean;
+	message: string;
 };
