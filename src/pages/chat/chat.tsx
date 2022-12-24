@@ -5,52 +5,33 @@ import { Contacts } from '../../components/contacts';
 import { Logo } from '../../components/logo';
 import { Welcome } from '../../components/welcome';
 import { useAuth } from '../../hooks/use-auth';
-import {
-	getMessagesAction,
-	loadContactsAction,
-} from '../../redux/services/user/actions';
-import {
-	getContacts,
-	getUser,
-	getUserId,
-} from '../../redux/services/user/selectors';
-import { MessageType, UserType } from '../../redux/services/user/typedef';
+import { loadContactsAction } from '../../redux/services/user/actions';
+import { getContacts, getUser } from '../../redux/services/user/selectors';
+import { UserType } from '../../redux/services/user/typedef';
 import { useAppDispatch, useAppSelector } from '../../redux/store/hooks';
-import { host } from '../../utils/APIRoutes';
+import { host } from '../../utils/api-routes';
 import { Container, LeftSide } from './chat.styled';
 
 export const Chat = () => {
 	const dispatch = useAppDispatch();
-	const id = useAppSelector(getUserId);
 	const user = useAppSelector(getUser);
 	const contacts = useAppSelector(getContacts);
 
 	const socketRef = useRef<Socket | null>(null);
 
 	const [selectedContact, setSelectedContact] = useState<UserType | null>(null);
-	const [messages, setMessages] = useState<MessageType[]>([]);
 
 	const changeContact = (contact: UserType) => {
 		setSelectedContact(contact);
-
-		if (user?._id) {
-			dispatch(
-				getMessagesAction({
-					from: user._id,
-					to: contact._id,
-					setMessages,
-				})
-			);
-		}
 	};
 
 	useAuth();
 
 	useEffect(() => {
-		if (id) {
-			dispatch(loadContactsAction(id));
+		if (user?._id) {
+			dispatch(loadContactsAction(user?._id));
 		}
-	}, [id, dispatch]);
+	}, [user?._id, dispatch]);
 
 	useEffect(() => {
 		if (user) {
@@ -72,8 +53,6 @@ export const Chat = () => {
 			<>
 				{selectedContact ? (
 					<ChatContainer
-						setMessages={setMessages}
-						messages={messages}
 						contact={selectedContact}
 						userId={user._id}
 						socketRef={socketRef}

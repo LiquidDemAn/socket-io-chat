@@ -1,12 +1,8 @@
+import { MutableRefObject, useEffect, useRef, useState } from 'react';
 import {
-	Dispatch,
-	MutableRefObject,
-	SetStateAction,
-	useEffect,
-	useRef,
-	useState,
-} from 'react';
-import { createMessageAction } from '../../redux/services/user/actions';
+	createMessageAction,
+	getMessagesAction,
+} from '../../redux/services/user/actions';
 import { MessageType, UserType } from '../../redux/services/user/typedef';
 import { useAppDispatch } from '../../redux/store/hooks';
 import { ChatInput } from '../chat-input';
@@ -26,22 +22,15 @@ import { Socket } from 'socket.io-client';
 type Props = {
 	userId: string;
 	contact: UserType;
-	messages: MessageType[];
-	setMessages: Dispatch<SetStateAction<MessageType[]>>;
 	socketRef: MutableRefObject<Socket | null>;
 };
 
-export const ChatContainer = ({
-	contact,
-	userId,
-	setMessages,
-	messages,
-	socketRef,
-}: Props) => {
+export const ChatContainer = ({ contact, userId, socketRef }: Props) => {
 	const dispatch = useAppDispatch();
 
 	const scrollRef = useRef<HTMLDivElement | null>(null);
 
+	const [messages, setMessages] = useState<MessageType[]>([]);
 	const [arrivalMessage, setArrivalMessage] = useState<MessageType | null>(
 		null
 	);
@@ -69,14 +58,12 @@ export const ChatContainer = ({
 				});
 			});
 		}
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, []);
+	}, [socketRef]);
 
 	useEffect(() => {
 		if (arrivalMessage && arrivalMessage.from === contact._id) {
 			setMessages((prev) => [...prev, arrivalMessage]);
 			setArrivalMessage(null);
-			console.log(arrivalMessage);
 		}
 	}, [arrivalMessage, setMessages, contact._id]);
 
@@ -86,7 +73,17 @@ export const ChatContainer = ({
 		}
 	}, [messages]);
 
-	console.log(messages);
+	useEffect(() => {
+		setMessages([]);
+
+		dispatch(
+			getMessagesAction({
+				from: userId,
+				to: contact._id,
+				setMessages,
+			})
+		);
+	}, [dispatch, contact, userId]);
 
 	return (
 		<Container>

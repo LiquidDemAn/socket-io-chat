@@ -1,7 +1,7 @@
 import {
 	createMessageRoute,
 	getMessagesRoute,
-} from './../../../utils/APIRoutes';
+} from '../../../utils/api-routes';
 import axios, { AxiosError } from 'axios';
 import {
 	LoginType,
@@ -17,7 +17,7 @@ import {
 	setAvatarRoute,
 	loadUserRoute,
 	contactsRoute,
-} from '../../../utils/APIRoutes';
+} from '../../../utils/api-routes';
 import { getUserId, setUserId } from '../../../utils/local-storage';
 import { Dispatch, MutableRefObject, SetStateAction } from 'react';
 import { Socket } from 'socket.io-client';
