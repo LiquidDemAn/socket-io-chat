@@ -1,5 +1,6 @@
+import { createMessageRoute } from './../../../utils/APIRoutes';
 import axios, { AxiosError } from 'axios';
-import { LoginType, RegisterType, UserType } from './typedef';
+import { LoginType, MessageType, RegisterType, UserType } from './typedef';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import {
 	loginRoute,
@@ -77,5 +78,14 @@ export const loadContactsAction = createAsyncThunk<UserType[], string>(
 			console.error(error);
 			return rejectWithValue(error.response?.data);
 		}
+	}
+);
+
+export const createMessageAction = createAsyncThunk<void, MessageType>(
+	'user/create-message',
+	async (message) => {
+		const { data } = await axios.post(createMessageRoute, message);
+
+		console.log(data)
 	}
 );

@@ -17,6 +17,7 @@ export const Contacts = ({
 		<ContactsContainer>
 			{contacts?.map((contact) => (
 				<Contact
+					key={contact._id}
 					selected={selectedContactId === contact._id}
 					onClick={() => changeContact(contact)}
 				>

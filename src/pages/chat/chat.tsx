@@ -34,7 +34,7 @@ export const Chat = () => {
 		}
 	}, [id, dispatch]);
 
-	return (
+	return user ? (
 		<Container>
 			<LeftSide>
 				<Logo />
@@ -46,11 +46,13 @@ export const Chat = () => {
 			</LeftSide>
 			<>
 				{selectedContact ? (
-					<ChatContainer contact={selectedContact} />
+					<ChatContainer contact={selectedContact} userId={user._id} />
 				) : (
-					<Welcome name={user?.username} />
+					<Welcome name={user.username} />
 				)}
 			</>
 		</Container>
+	) : (
+		<></>
 	);
 };

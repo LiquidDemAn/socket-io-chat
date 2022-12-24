@@ -23,3 +23,9 @@ export type RegisterType = {
 	email: string;
 	password: string;
 };
+
+export type MessageType = {
+	text: string;
+	from: string;
+	to: string;
+};

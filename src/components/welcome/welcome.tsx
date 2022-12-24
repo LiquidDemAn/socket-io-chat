@@ -2,7 +2,7 @@ import React from 'react';
 import { Container, Image, Name } from './welcome.styled';
 
 type Props = {
-	name?: string;
+	name: string;
 };
 
 export const Welcome = ({ name }: Props) => {
