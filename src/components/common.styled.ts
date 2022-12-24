@@ -36,7 +36,11 @@ export const Avatar = styled.img.attrs<AvatarProps>((props) => ({
 	src: `data:image/svg+xml;base64,${props.url}`,
 	alt: 'avatar',
 }))<AvatarProps>`
-	height: 5rem;
+	height: 3rem;
+
+	@media (min-width: 992px) {
+		height: 5rem;
+	}
 `;
 
 // {

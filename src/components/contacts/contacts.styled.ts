@@ -19,15 +19,30 @@ export const ContactsContainer = styled.div`
 `;
 
 export const Contact = styled.div<{ selected: boolean }>`
-	display: flex;
 	width: 98%;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
 	align-items: center;
 	background-color: ${(props) => (props.selected ? '#9a86f3' : '#ffffff39')};
-	min-height: 5rem;
-	gap: 1rem;
-	padding: 0.5rem;
+	min-height: auto;
+	gap: 0.5rem;
+	padding: 0.3rem;
 	cursor: pointer;
 	transition: 0.5s ease-in-out;
+
+	@media (min-width: 992px) {
+		flex-direction: row;
+		justify-content: flex-start;
+		gap: 1rem;
+		padding: 0.5rem;
+		min-height: 5rem;
+	}
 `;
 
-export const ContactName = styled.h3``;
+export const ContactName = styled.h3`
+	display: none;
+	@media (min-width: 576px) {
+		display: block;
+	}
+`;

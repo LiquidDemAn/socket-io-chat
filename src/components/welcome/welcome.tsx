@@ -1,4 +1,3 @@
-import React from 'react';
 import { Container, Image, Name } from './welcome.styled';
 
 type Props = {

@@ -7,13 +7,20 @@ export const Container = styled.div`
 	align-items: center;
 	flex-direction: column;
 	color: #fff;
+	text-align: center;
+	padding: 0 1rem;
 `;
 
 export const Image = styled.img.attrs({
 	src: Robot,
 	alt: 'Robot',
 })`
+	display: none;
 	height: 20rem;
+
+	@media (min-width: 576px) {
+		display: block;
+	}
 `;
 
 export const Title = styled.h2``;

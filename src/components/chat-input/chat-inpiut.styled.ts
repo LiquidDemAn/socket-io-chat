@@ -3,15 +3,24 @@ import styled from 'styled-components';
 export const Container = styled.div`
 	display: flex;
 	align-items: center;
-	gap: 2rem;
-	padding: 0 2rem;
+	gap: 0.5rem;
+	padding: 0 0.5rem;
+
+	@media (min-width: 576px) {
+		padding: 0 2rem;
+		gap: 2rem;
+	}
 `;
 
 export const EmojiButtonContainer = styled.div`
-	display: flex;
+	display: none;
 	align-items: center;
 	color: #fff;
 	gap: 1rem;
+
+	@media (min-width: 768px) {
+		display: flex;
+	}
 `;
 
 export const Emoji = styled.div`
@@ -34,8 +43,12 @@ export const InputContainer = styled.form`
 	border-radius: 2rem;
 	display: flex;
 	align-items: center;
-	gap: 2rem;
+	gap: 0;
 	background-color: #ffffff34;
+
+	@media (min-width: 576px) {
+		gap: 2rem;
+	}
 `;
 
 export const InputText = styled.input.attrs({
@@ -61,11 +74,16 @@ export const ButtonSubmit = styled.button`
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	padding: 0.3rem 2rem;
+	padding: 0.5rem;
 	border-radius: 2rem;
 	border: none;
 	cursor: pointer;
 	background-color: #9a86f3;
-	font-size: 2rem;
+	font-size: 1rem;
 	color: #fff;
+
+	@media (min-width: 576px) {
+		padding: 0.3rem 2rem;
+		font-size: 2rem;
+	}
 `;
