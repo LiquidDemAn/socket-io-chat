@@ -4,7 +4,7 @@ import {
 	getMessagesAction,
 } from '../../redux/services/user/actions';
 import { MessageType, UserType } from '../../redux/services/user/typedef';
-import { useAppDispatch } from '../../redux/store/hooks';
+import { useAppDispatch, useAppSelector } from '../../redux/store/hooks';
 import { ChatInput } from '../chat-input';
 import { Avatar } from '../common.styled';
 import { Logout } from '../logout';
@@ -18,6 +18,9 @@ import {
 	MessageText,
 } from './chat-container.styled';
 import { Socket } from 'socket.io-client';
+import { loadChatAction } from '../../redux/services/chats/actions';
+import { AppState } from '../../redux/store/typedef';
+import { getChat } from '../../redux/services/chats/selectors';
 
 type Props = {
 	userId: string;
@@ -27,6 +30,9 @@ type Props = {
 
 export const ChatContainer = ({ contact, userId, socketRef }: Props) => {
 	const dispatch = useAppDispatch();
+	const chat = useAppSelector((state: AppState) => getChat(state, contact._id));
+
+	console.log(chat);
 
 	const scrollRef = useRef<HTMLDivElement | null>(null);
 
@@ -71,19 +77,23 @@ export const ChatContainer = ({ contact, userId, socketRef }: Props) => {
 		if (scrollRef.current) {
 			scrollRef.current.scrollIntoView({ behavior: 'smooth' });
 		}
-	}, [messages]);
+	}, [chat]);
 
 	useEffect(() => {
-		setMessages([]);
+		// setMessages([]);
 
-		dispatch(
-			getMessagesAction({
-				from: userId,
-				to: contact._id,
-				setMessages,
-			})
-		);
-	}, [dispatch, contact, userId]);
+		// dispatch(
+		// 	getMessagesAction({
+		// 		from: userId,
+		// 		to: contact._id,
+		// 		setMessages,
+		// 	})
+		// );
+
+		if (!chat) {
+			dispatch(loadChatAction({ from: userId, to: contact._id }));
+		}
+	}, [dispatch, contact, userId, chat]);
 
 	return (
 		<Container>
@@ -95,7 +105,7 @@ export const ChatContainer = ({ contact, userId, socketRef }: Props) => {
 				<Logout />
 			</Header>
 			<Messages>
-				{messages.map(({ fromSelf, message, _id }) => (
+				{chat?.map(({ fromSelf, message, _id }) => (
 					<Message key={_id} ref={scrollRef} sended={fromSelf}>
 						<MessageText sended={fromSelf}>{message}</MessageText>
 					</Message>
