@@ -9,8 +9,13 @@ export const chatsSlice = createSlice({
 	initialState,
 	reducers: {
 		loadArivalMessage(state, { payload }) {
-			if (state.chats) {
-				state.chats[payload.from].push(payload);
+			if (state.arrivalChats) {
+				if (state.chats) {
+					state.chats[payload.from].push(payload);
+				}
+				state.arrivalChats[payload.from].push(payload);
+			} else {
+				state.arrivalChats = { [payload.from]: [payload] };
 			}
 		},
 	},
