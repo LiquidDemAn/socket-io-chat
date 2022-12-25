@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { io, Socket } from 'socket.io-client';
 import { ChatContainer } from '../../components/chat-container';
+import { Avatar } from '../../components/common.styled';
 import { Contacts } from '../../components/contacts';
 import { Logo } from '../../components/logo';
 import { Welcome } from '../../components/welcome';
@@ -10,7 +11,13 @@ import { getContacts, getUser } from '../../redux/services/user/selectors';
 import { UserType } from '../../redux/services/user/typedef';
 import { useAppDispatch, useAppSelector } from '../../redux/store/hooks';
 import { host } from '../../utils/api-routes';
-import { Container, LeftSide } from './chat.styled';
+import {
+	Container,
+	ChatSideBar,
+	LogoContactsWrapper,
+	UserWrapper,
+	UserName,
+} from './chat.styled';
 
 export const Chat = () => {
 	const dispatch = useAppDispatch();
@@ -42,14 +49,20 @@ export const Chat = () => {
 
 	return user ? (
 		<Container>
-			<LeftSide>
-				<Logo />
-				<Contacts
-					contacts={contacts}
-					changeContact={changeContact}
-					selectedContactId={selectedContact?._id}
-				/>
-			</LeftSide>
+			<ChatSideBar>
+				<LogoContactsWrapper>
+					<Logo />
+					<Contacts
+						contacts={contacts}
+						changeContact={changeContact}
+						selectedContactId={selectedContact?._id}
+					/>
+				</LogoContactsWrapper>
+				<UserWrapper>
+					<Avatar url={user.avatar} />
+					<UserName>{user.username}</UserName>
+				</UserWrapper>
+			</ChatSideBar>
 			<>
 				{selectedContact ? (
 					<ChatContainer
