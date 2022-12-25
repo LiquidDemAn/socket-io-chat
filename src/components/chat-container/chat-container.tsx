@@ -14,10 +14,7 @@ import {
 	MessageText,
 } from './chat-container.styled';
 import { Socket } from 'socket.io-client';
-import {
-	loadChatAction,
-	createMessageAction,
-} from '../../redux/services/chats/actions';
+import { createMessageAction } from '../../redux/services/chats/actions';
 import { AppState } from '../../redux/store/typedef';
 import { getChat } from '../../redux/services/chats/selectors';
 
@@ -58,12 +55,6 @@ export const ChatContainer = ({ contact, userId, socketRef }: Props) => {
 			scrollRef.current.scrollIntoView({ behavior: 'smooth' });
 		}
 	}, [chat]);
-
-	useEffect(() => {
-		if (!chat) {
-			dispatch(loadChatAction({ from: userId, to: contact._id }));
-		}
-	}, [dispatch, contact, userId, chat]);
 
 	return (
 		<Container>

@@ -6,7 +6,15 @@ import { Contacts } from '../../components/contacts';
 import { Logo } from '../../components/logo';
 import { Welcome } from '../../components/welcome';
 import { useAuth } from '../../hooks/use-auth';
-import { loadArivalMessage } from '../../redux/services/chats/chats.slice';
+import { loadChatAction } from '../../redux/services/chats/actions';
+import {
+	clearArrivalChat,
+	loadArivalMessage,
+} from '../../redux/services/chats/chats.slice';
+import {
+	getArrivalChats,
+	getChatsIds,
+} from '../../redux/services/chats/selectors';
 import { loadContactsAction } from '../../redux/services/user/actions';
 import { getContacts, getUser } from '../../redux/services/user/selectors';
 import { MessageType, UserType } from '../../redux/services/user/typedef';
@@ -22,15 +30,27 @@ import {
 
 export const Chat = () => {
 	const dispatch = useAppDispatch();
+
 	const user = useAppSelector(getUser);
 	const contacts = useAppSelector(getContacts);
+	const arrivalChats = useAppSelector(getArrivalChats);
+	const chatsIds = useAppSelector(getChatsIds);
 
 	const socketRef = useRef<Socket | null>(null);
 
 	const [selectedContact, setSelectedContact] = useState<UserType | null>(null);
 
 	const changeContact = (contact: UserType) => {
-		setSelectedContact(contact);
+		setSelectedContact((prev) => {
+			dispatch(clearArrivalChat(prev?._id));
+			return contact;
+		});
+
+		if (!chatsIds.includes(contact._id) && user?._id) {
+			dispatch(loadChatAction({ from: user?._id, to: contact._id }));
+		}
+
+		dispatch(clearArrivalChat(contact._id));
 	};
 
 	useAuth();
@@ -45,7 +65,6 @@ export const Chat = () => {
 		if (user) {
 			socketRef.current = io(host);
 			socketRef.current.emit('add-user', user._id);
-			console.log(socketRef.current);
 		}
 	}, [user]);
 
@@ -66,6 +85,7 @@ export const Chat = () => {
 						contacts={contacts}
 						changeContact={changeContact}
 						selectedContactId={selectedContact?._id}
+						arrivalChats={arrivalChats}
 					/>
 				</LogoContactsWrapper>
 				<UserWrapper>

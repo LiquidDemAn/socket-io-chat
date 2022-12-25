@@ -46,3 +46,8 @@ export const ContactName = styled.h3`
 		display: block;
 	}
 `;
+
+export const NewMessages = styled.span`
+	color: red;
+	font-weight: 700;
+`;

@@ -1,17 +1,20 @@
+import { ChatsType } from '../../redux/services/chats/typedef';
 import { UserType } from '../../redux/services/user/typedef';
 import { Avatar } from '../common.styled';
-import { Contact, ContactName, ContactsContainer } from './contacts.styled';
+import { Contact, ContactName, ContactsContainer, NewMessages } from './contacts.styled';
 
 type Props = {
 	contacts?: UserType[] | null;
 	changeContact: (contact: UserType) => void;
 	selectedContactId?: string;
+	arrivalChats?: ChatsType;
 };
 
 export const Contacts = ({
 	contacts,
 	changeContact,
 	selectedContactId,
+	arrivalChats,
 }: Props) => {
 	return (
 		<ContactsContainer>
@@ -23,6 +26,11 @@ export const Contacts = ({
 				>
 					<Avatar url={contact.avatar} />
 					<ContactName>{contact.username}</ContactName>
+					{arrivalChats &&
+						arrivalChats[contact._id] &&
+						selectedContactId !== contact._id && (
+							<NewMessages>{arrivalChats[contact._id].length} New Messages</NewMessages>
+						)}
 				</Contact>
 			))}
 		</ContactsContainer>
