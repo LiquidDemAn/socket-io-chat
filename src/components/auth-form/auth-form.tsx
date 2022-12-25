@@ -1,5 +1,6 @@
 import { FormEvent, ReactElement } from 'react';
 import { Link } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
 import { SubmitBtn } from '../common.styled';
 import { Logo } from '../logo';
 import { AuthFormWrapper, AuthFormAdd } from './auth-form.styled';
@@ -32,7 +33,7 @@ export const AuthForm = ({ type, children, handleSubmit }: Props) => {
 					</AuthFormAdd>
 				)}
 			</AuthFormWrapper>
-			{/* <ToastContainer /> */}
+			<ToastContainer />
 		</>
 	);
 };

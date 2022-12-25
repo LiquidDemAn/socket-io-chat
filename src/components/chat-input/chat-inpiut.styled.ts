@@ -60,13 +60,17 @@ export const InputText = styled.input.attrs({
 	color: #fff;
 	border: none;
 	padding: 0.5rem 0 0.5rem 1rem;
-	font-size: 1.2rem;
+	font-size: 0.6rem;
 
 	&::selection {
 		background-color: #9a86f3;
 	}
 	&:focus {
 		outline: none;
+	}
+
+	@media (min-width: 768px) {
+		font-size: 1.2rem;
 	}
 `;
 

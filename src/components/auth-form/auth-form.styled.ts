@@ -7,7 +7,11 @@ export const AuthFormWrapper = styled.form`
 	gap: 2rem;
 	background-color: #00000076;
 	border-radius: 2rem;
-	padding: 3rem 5rem;
+	padding: 1.5rem 3rem;
+
+	@media (min-width: 576px) {
+		padding: 3rem 5rem;
+	}
 `;
 
 export const AuthFormInput = styled.input`

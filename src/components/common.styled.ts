@@ -11,7 +11,7 @@ type AvatarProps = {
 
 export const SubmitBtn = styled.button`
 	background-color: #997af0;
-	padding: 1rem 2rem;
+	padding: 0.8rem 1rem;
 	width: ${({ width }: SubmitBtnProps) => (width ? width : 'auto')};
 	color: #fff;
 	border: none;
@@ -24,6 +24,10 @@ export const SubmitBtn = styled.button`
 
 	&:hover {
 		background-color: #4e0eff;
+	}
+
+	@media (min-width: 576px) {
+		padding: 1rem 2rem;
 	}
 `;
 
@@ -42,7 +46,3 @@ export const Avatar = styled.img.attrs<AvatarProps>((props) => ({
 		height: 5rem;
 	}
 `;
-
-// {
-
-// }

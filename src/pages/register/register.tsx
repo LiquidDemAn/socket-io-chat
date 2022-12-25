@@ -18,8 +18,10 @@ export const Register = () => {
 	const passwordRef = useRef<HTMLInputElement | null>(null);
 	const confirmPasswordRef = useRef<HTMLInputElement | null>(null);
 
+	console.log(error);
+
 	if (error) {
-		toast.error(error.message, toastOptions);
+		toast.error(error.message || error.msg, toastOptions);
 	}
 
 	const handleValidation = () => {
