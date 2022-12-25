@@ -1,5 +1,6 @@
 export type ChatsStateType = {
 	chats?: ChatsType;
+	// arrivalMessages?: ChatsType;
 };
 
 export type ChatsType = {
@@ -9,6 +10,7 @@ export type ChatsType = {
 export type MessageType = {
 	_id: string;
 	from: string;
+	to: string;
 	fromSelf: boolean;
 	message: string;
 };

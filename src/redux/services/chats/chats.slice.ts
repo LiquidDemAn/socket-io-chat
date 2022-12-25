@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { loadChatAction } from './actions';
+import { createMessageAction, loadChatAction } from './actions';
 import { ChatsStateType } from './typedef';
 
 const initialState: ChatsStateType = {};
@@ -7,13 +7,27 @@ const initialState: ChatsStateType = {};
 export const chatsSlice = createSlice({
 	name: 'chats',
 	initialState,
-	reducers: {},
-	extraReducers: (builder) =>
-		builder.addCase(loadChatAction.fulfilled, (state, { payload }) => {
+	reducers: {
+		loadArivalMessage(state, { payload }) {
 			if (state.chats) {
-				state.chats[payload.contactId] = payload.messages;
-			} else {
-				state.chats = { [payload.contactId]: payload.messages };
+				state.chats[payload.from].push(payload);
 			}
-		}),
+		},
+	},
+	extraReducers: (builder) =>
+		builder
+			.addCase(loadChatAction.fulfilled, (state, { payload }) => {
+				if (state.chats) {
+					state.chats[payload.contactId] = payload.messages;
+				} else {
+					state.chats = { [payload.contactId]: payload.messages };
+				}
+			})
+			.addCase(createMessageAction.fulfilled, (state, { payload }) => {
+				if (state.chats) {
+					state.chats[payload.contactId].push(payload.message);
+				}
+			}),
 });
+
+export const { loadArivalMessage } = chatsSlice.actions;

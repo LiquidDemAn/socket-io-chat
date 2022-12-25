@@ -1,8 +1,4 @@
-import { MutableRefObject, useEffect, useRef, useState } from 'react';
-import {
-	createMessageAction,
-	getMessagesAction,
-} from '../../redux/services/user/actions';
+import { MutableRefObject, useEffect, useRef } from 'react';
 import { MessageType, UserType } from '../../redux/services/user/typedef';
 import { useAppDispatch, useAppSelector } from '../../redux/store/hooks';
 import { ChatInput } from '../chat-input';
@@ -18,7 +14,10 @@ import {
 	MessageText,
 } from './chat-container.styled';
 import { Socket } from 'socket.io-client';
-import { loadChatAction } from '../../redux/services/chats/actions';
+import {
+	loadChatAction,
+	createMessageAction,
+} from '../../redux/services/chats/actions';
 import { AppState } from '../../redux/store/typedef';
 import { getChat } from '../../redux/services/chats/selectors';
 
@@ -32,14 +31,7 @@ export const ChatContainer = ({ contact, userId, socketRef }: Props) => {
 	const dispatch = useAppDispatch();
 	const chat = useAppSelector((state: AppState) => getChat(state, contact._id));
 
-	console.log(chat);
-
 	const scrollRef = useRef<HTMLDivElement | null>(null);
-
-	const [messages, setMessages] = useState<MessageType[]>([]);
-	const [arrivalMessage, setArrivalMessage] = useState<MessageType | null>(
-		null
-	);
 
 	const handleSendMessage = (text: string) => {
 		const message = {
@@ -48,30 +40,18 @@ export const ChatContainer = ({ contact, userId, socketRef }: Props) => {
 			to: contact._id,
 		};
 
-		if (userId) {
-			dispatch(createMessageAction({ message, setMessages, socketRef }));
-		}
-	};
+		dispatch(createMessageAction({ message })).then((res) => {
+			const payload = res.payload as {
+				contactId: string;
+				message: MessageType;
+			};
 
-	useEffect(() => {
-		if (socketRef.current) {
-			socketRef.current.on('message-receive', ({ message, _id, from }) => {
-				setArrivalMessage({
-					_id,
-					fromSelf: false,
-					message,
-					from,
-				});
+			socketRef.current?.emit('send-message', {
+				...message,
+				_id: payload.message._id,
 			});
-		}
-	}, [socketRef]);
-
-	useEffect(() => {
-		if (arrivalMessage && arrivalMessage.from === contact._id) {
-			setMessages((prev) => [...prev, arrivalMessage]);
-			setArrivalMessage(null);
-		}
-	}, [arrivalMessage, setMessages, contact._id]);
+		});
+	};
 
 	useEffect(() => {
 		if (scrollRef.current) {
@@ -80,16 +60,6 @@ export const ChatContainer = ({ contact, userId, socketRef }: Props) => {
 	}, [chat]);
 
 	useEffect(() => {
-		// setMessages([]);
-
-		// dispatch(
-		// 	getMessagesAction({
-		// 		from: userId,
-		// 		to: contact._id,
-		// 		setMessages,
-		// 	})
-		// );
-
 		if (!chat) {
 			dispatch(loadChatAction({ from: userId, to: contact._id }));
 		}

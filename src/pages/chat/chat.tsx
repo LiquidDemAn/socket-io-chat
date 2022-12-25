@@ -6,9 +6,10 @@ import { Contacts } from '../../components/contacts';
 import { Logo } from '../../components/logo';
 import { Welcome } from '../../components/welcome';
 import { useAuth } from '../../hooks/use-auth';
+import { loadArivalMessage } from '../../redux/services/chats/chats.slice';
 import { loadContactsAction } from '../../redux/services/user/actions';
 import { getContacts, getUser } from '../../redux/services/user/selectors';
-import { UserType } from '../../redux/services/user/typedef';
+import { MessageType, UserType } from '../../redux/services/user/typedef';
 import { useAppDispatch, useAppSelector } from '../../redux/store/hooks';
 import { host } from '../../utils/api-routes';
 import {
@@ -44,8 +45,17 @@ export const Chat = () => {
 		if (user) {
 			socketRef.current = io(host);
 			socketRef.current.emit('add-user', user._id);
+			console.log(socketRef.current);
 		}
 	}, [user]);
+
+	useEffect(() => {
+		if (socketRef.current) {
+			socketRef.current.on('message-receive', (message: MessageType) => {
+				dispatch(loadArivalMessage(message));
+			});
+		}
+	}, [dispatch]);
 
 	return user ? (
 		<Container>
